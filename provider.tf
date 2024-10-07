@@ -1,11 +1,11 @@
 provider "aws" {
-  region  = "us-east-1"
+  region = "us-east-1"
 
   default_tags {
     tags = {
       Created_by_tf = var.created_by_tf
-      Environment = var.environment
-      Application = var.application
+      Environment   = var.environment
+      Application   = var.application
     }
   }
 }
@@ -19,11 +19,11 @@ terraform {
       version = "~> 4.16" # pin the major version to avoid breaking changes
     }
   }
-  
-  backend "s3" {
-    bucket = "terraform-backend-personal-dev"
-    region = "us-east-1"
-    encrypt = true
-    key = "static-web-app-dev/terraform.tfstate"
-  }
+
+  # backend "s3" {
+  #   bucket = "terraform-backend-personal-dev"
+  #   region = "us-east-1"
+  #   encrypt = true
+  #   key = "static-web-app-dev/terraform.tfstate"
+  # }
 }

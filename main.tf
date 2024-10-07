@@ -17,13 +17,13 @@ data "aws_ami" "ubuntu" {
 }
 
 resource "aws_instance" "app_server" {
-  ami           = var.custom_ami != "" ? var.custom_ami : data.aws_ami.ubuntu.id
-  instance_type = "t2.micro"
-  key_name      = aws_key_pair.node-app-key.key_name
+  ami                         = var.custom_ami != "" ? var.custom_ami : data.aws_ami.ubuntu.id
+  instance_type               = "t2.micro"
+  key_name                    = aws_key_pair.node-app-key.key_name
   associate_public_ip_address = true
 
   security_groups = ["${aws_security_group.ssh.id}", "${aws_security_group.http.id}"]
-  subnet_id = aws_subnet.dev_app_subnet.id
+  subnet_id       = aws_subnet.dev_app_subnet.id
 
   user_data_base64 = base64encode(templatefile("${path.module}/${var.provision_script}", {}))
 
@@ -132,3 +132,11 @@ resource "aws_key_pair" "node-app-key" {
 }
 
 
+resource "aws_s3_bucket" "example" {
+  bucket = "mlh-terraform-bucket"
+
+  tags = {
+    Name        = "Terraform bucket"
+    Environment = "Dev"
+  }
+}
